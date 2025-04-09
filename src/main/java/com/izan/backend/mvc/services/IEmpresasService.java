@@ -13,4 +13,6 @@ public interface IEmpresasService {
 	public void delete(Empresas e);
 	
 	public void save(Empresas e);
+	
+	public Empresas update(Empresas e, int id);
 }

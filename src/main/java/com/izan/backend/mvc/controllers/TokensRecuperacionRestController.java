@@ -13,7 +13,7 @@ import com.izan.backend.mvc.services.ITokensRecuperacionService;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/worktrack")
 public class TokensRecuperacionRestController {
 
 	@Autowired

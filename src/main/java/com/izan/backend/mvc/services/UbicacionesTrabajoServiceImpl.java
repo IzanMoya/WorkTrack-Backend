@@ -33,4 +33,10 @@ public class UbicacionesTrabajoServiceImpl implements IUbicacionesTrabajoService
 	public void delete(UbicacionesTrabajo ut) {
 		ubicacionesTrabajoDAO.delete(ut);
 	}
+
+	@Override
+	public UbicacionesTrabajo update(UbicacionesTrabajo ut, int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

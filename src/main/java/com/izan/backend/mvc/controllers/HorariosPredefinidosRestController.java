@@ -13,7 +13,7 @@ import com.izan.backend.mvc.services.IHorariosPredefinidosService;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/worktrack")
 public class HorariosPredefinidosRestController {
 
 	@Autowired

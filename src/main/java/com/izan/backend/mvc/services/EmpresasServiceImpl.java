@@ -33,4 +33,10 @@ public class EmpresasServiceImpl implements IEmpresasService{
 	public void delete(Empresas e) {
 		empresasDAO.delete(e);
 	}
+
+	@Override
+	public Empresas update(Empresas e, int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

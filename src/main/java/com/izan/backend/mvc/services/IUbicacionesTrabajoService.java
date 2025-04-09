@@ -13,4 +13,6 @@ public interface IUbicacionesTrabajoService {
 	public void delete(UbicacionesTrabajo ut);
 	
 	public void save(UbicacionesTrabajo ut);
+	
+	public UbicacionesTrabajo update(UbicacionesTrabajo ut, int id);
 }
