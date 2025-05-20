@@ -33,3 +33,9 @@ build/
 .vscode/
 src/main/resources/*.json
 src/main/resources/worktrack-c18a2-firebase-adminsdk-fbsvc-4739fcc9d0.json
+
+# Firebase credentials
+src/main/resources/firebase/*.json
+
+# Spring Boot config sensible
+src/main/resources/application.properties
