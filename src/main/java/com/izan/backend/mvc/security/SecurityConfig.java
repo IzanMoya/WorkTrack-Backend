@@ -25,16 +25,13 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-            	    .requestMatchers("/auth/**").permitAll()
-            	    .requestMatchers(HttpMethod.POST, "/worktrack/usuarios/registro").permitAll()
-            	    .requestMatchers("/api/public/**").permitAll()
-            	    .requestMatchers("/worktrack/empresas/**").permitAll()
-            	    .requestMatchers("/worktrack/fichajes/**").authenticated()
-            	    .requestMatchers("/worktrack/usuarios/**").permitAll()
-            	    .requestMatchers("/worktrack/usuarios/email/**").permitAll()
-            	    .requestMatchers("/worktrack/ubicacionesTrabajo/**").permitAll()
-            	    .anyRequest().authenticated()
-            	)
+                .requestMatchers("/auth/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/worktrack/usuarios/registro").permitAll()
+                .requestMatchers("/worktrack/usuarios/email/**").permitAll()
+                .requestMatchers("/ping").permitAll()
+                .requestMatchers("/", "/favicon.ico").permitAll() // <-- Añadido para evitar errores
+                .anyRequest().authenticated()
+            )
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             );
