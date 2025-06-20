@@ -30,7 +30,7 @@ import jakarta.persistence.UniqueConstraint;
  */
 @Entity
 @Access(AccessType.FIELD)
-@Table(name = "usuarios", catalog = "worktrack", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Table(name = "usuarios", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class Usuarios implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
