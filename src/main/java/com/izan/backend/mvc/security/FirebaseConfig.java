@@ -1,6 +1,8 @@
 package com.izan.backend.mvc.security;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Base64;
 
 import org.springframework.context.annotation.Configuration;
 
@@ -15,11 +17,13 @@ public class FirebaseConfig {
 
     @PostConstruct
     public void init() throws Exception {
-        InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("firebase/worktrack-c18a2-firebase-adminsdk-fbsvc-cb3ec24c09.json");
-
-        if (serviceAccount == null) {
-            throw new IllegalStateException("No se pudo cargar el archivo firebase-key.json desde el classpath.");
+        String base64 = System.getenv("FIREBASE_CONFIG_BASE64");
+        if (base64 == null || base64.isEmpty()) {
+            throw new IllegalStateException("No se encontró la variable de entorno FIREBASE_CONFIG_BASE64");
         }
+
+        byte[] decodedBytes = Base64.getDecoder().decode(base64);
+        InputStream serviceAccount = new ByteArrayInputStream(decodedBytes);
 
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
@@ -30,3 +34,4 @@ public class FirebaseConfig {
         }
     }
 }
+
