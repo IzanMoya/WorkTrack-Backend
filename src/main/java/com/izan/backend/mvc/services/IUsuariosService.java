@@ -15,4 +15,6 @@ public interface IUsuariosService {
 	public void save(Usuarios u);
 	
 	public Usuarios update(Usuarios u, int id);
+	
+	Usuarios findByEmail(String email);
 }

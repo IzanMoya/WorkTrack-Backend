@@ -15,4 +15,7 @@ public interface IEmpresasService {
 	public void save(Empresas e);
 	
 	public Empresas update(Empresas e, int id);
+	
+	Empresas findByNombre(String nombre);
+
 }

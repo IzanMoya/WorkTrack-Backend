@@ -1,5 +1,6 @@
 package com.izan.backend.mvc.controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -43,8 +45,52 @@ public class FichajesRestController {
 	@PostMapping("")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Fichajes create(@RequestBody Fichajes fichaje) {
-		fichajesService.save(fichaje);
-		return fichaje;
+	    fichajesService.save(fichaje);
+
+	    Fichajes fichajeGuardado = fichajesService.findById(fichaje.getId());
+	    System.out.println(">>> Fichaje guardado: " + fichajeGuardado);
+
+	    return fichajeGuardado;
+	}
+
+	@GetMapping("/ultimo/{usuarioId}")
+	public Fichajes getUltimoFichajeDeHoy(@PathVariable int usuarioId) {
+	    return fichajesService.findFichajeDeHoy(usuarioId, new Date());
+	}
+	
+	@PutMapping("/{id}")
+	public Fichajes update(@PathVariable int id, @RequestBody Fichajes datos) {
+	    Fichajes existente = fichajesService.findById(id);
+	    if (existente == null) {
+	        throw new RuntimeException("No se encontró el fichaje");
+	    }
+
+	    existente.setLatitudFin(datos.getLatitudFin());
+	    existente.setLongitudFin(datos.getLongitudFin());
+	    existente.setFechaFin(datos.getFechaFin());
+
+	    fichajesService.save(existente);
+	    return existente;
+	}
+	
+	@GetMapping("/empresa/{empresaId}")
+	public ResponseEntity<?> getFichajesByEmpresa(@PathVariable int empresaId) {
+	    List<Fichajes> fichajes = fichajesService.findByEmpresaId(empresaId);
+	    if (!fichajes.isEmpty()) {
+	        return new ResponseEntity<>(fichajes, HttpStatus.OK);
+	    }
+	    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+	
+	@GetMapping("/estado/{usuarioId}")
+	public ResponseEntity<String> obtenerEstadoFichaje(@PathVariable int usuarioId) {
+	    Date hoy = new Date();
+	    Fichajes fichaje = fichajesService.findFichajeDeHoy(usuarioId, hoy);
+
+	    if (fichaje != null && fichaje.getFechaFin() != null) {
+	        return ResponseEntity.ok("hecho");
+	    }
+	    return ResponseEntity.ok("pendiente");
 	}
 	
 	@DeleteMapping("/{id}")

@@ -3,10 +3,15 @@ package com.izan.backend.mvc.entities;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+
 import static jakarta.persistence.GenerationType.IDENTITY;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -26,13 +31,44 @@ public class Fichajes implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
+	@ManyToOne
+	@JoinColumn(name = "usuario_id", referencedColumnName = "id")
+	@JsonIgnoreProperties("fichajes")
 	private Usuarios usuarios;
+	
 	private BigDecimal latitudInicio;
 	private BigDecimal longitudInicio;
 	private Date fechaInicio;
+	
 	private BigDecimal latitudFin;
 	private BigDecimal longitudFin;
+	
+	@Column(name = "direccion_inicio")
+	private String direccionInicio;
+
+	@Column(name = "direccion_fin")
+	private String direccionFin;
+
+	public String getDireccionInicio() {
+		return direccionInicio;
+	}
+
+	public void setDireccionInicio(String direccionInicio) {
+		this.direccionInicio = direccionInicio;
+	}
+
+	public String getDireccionFin() {
+		return direccionFin;
+	}
+
+	public void setDireccionFin(String direccionFin) {
+		this.direccionFin = direccionFin;
+	}
+
 	private Date fechaFin;
 
 	public Fichajes() {

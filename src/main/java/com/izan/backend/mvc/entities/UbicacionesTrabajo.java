@@ -22,7 +22,9 @@ public class UbicacionesTrabajo implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private int id;
-	private Empresas empresas;
+	@ManyToOne
+	@JoinColumn(name = "empresa_id") // debe coincidir con tu base de datos
+	private Empresas empresa;
 	private String nombre;
 	private BigDecimal latitud;
 	private BigDecimal longitud;
@@ -33,7 +35,7 @@ public class UbicacionesTrabajo implements java.io.Serializable {
 
 	public UbicacionesTrabajo(int id, Empresas empresas, String nombre, BigDecimal latitud, BigDecimal longitud) {
 		this.id = id;
-		this.empresas = empresas;
+		this.empresa = empresas;
 		this.nombre = nombre;
 		this.latitud = latitud;
 		this.longitud = longitud;
@@ -42,7 +44,7 @@ public class UbicacionesTrabajo implements java.io.Serializable {
 	public UbicacionesTrabajo(int id, Empresas empresas, String nombre, BigDecimal latitud, BigDecimal longitud,
 			Integer radioMetros) {
 		this.id = id;
-		this.empresas = empresas;
+		this.empresa = empresas;
 		this.nombre = nombre;
 		this.latitud = latitud;
 		this.longitud = longitud;
@@ -62,13 +64,14 @@ public class UbicacionesTrabajo implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "empresa_id", nullable = false)
-	public Empresas getEmpresas() {
-		return this.empresas;
+	public Empresas getEmpresa() {
+	    return this.empresa;
 	}
 
-	public void setEmpresas(Empresas empresas) {
-		this.empresas = empresas;
+	public void setEmpresa(Empresas empresa) {
+	    this.empresa = empresa;
 	}
+
 
 	@Column(name = "nombre", nullable = false)
 	public String getNombre() {

@@ -4,6 +4,9 @@ package com.izan.backend.mvc.entities;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -31,6 +34,8 @@ public class Empresas implements java.io.Serializable {
 	private String telefono;
 	private Date createdAt;
 	private Set<UbicacionesTrabajo> ubicacionesTrabajos = new HashSet<UbicacionesTrabajo>(0);
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "empresa")
+	@JsonIgnore // 👈 AÑADE ESTO
 	private Set<Usuarios> usuarioses = new HashSet<Usuarios>(0);
 
 	public Empresas() {
@@ -100,7 +105,7 @@ public class Empresas implements java.io.Serializable {
 		this.createdAt = createdAt;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "empresas")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "empresa")
 	public Set<UbicacionesTrabajo> getUbicacionesTrabajos() {
 		return this.ubicacionesTrabajos;
 	}
@@ -109,7 +114,7 @@ public class Empresas implements java.io.Serializable {
 		this.ubicacionesTrabajos = ubicacionesTrabajos;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "empresas")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "empresa")
 	public Set<Usuarios> getUsuarioses() {
 		return this.usuarioses;
 	}

@@ -39,4 +39,9 @@ public class EmpresasServiceImpl implements IEmpresasService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Empresas findByNombre(String nombre) {
+	    return empresasDAO.findByNombreIgnoreCase(nombre); // o findByNombreIgnoreCase si lo llamaste así
+	}
 }

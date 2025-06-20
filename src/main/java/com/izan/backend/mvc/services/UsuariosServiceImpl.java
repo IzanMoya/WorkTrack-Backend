@@ -53,4 +53,9 @@ public class UsuariosServiceImpl implements IUsuariosService{
 		this.save(usuarioActual);
 		return usuarioActual;
 	}
+
+	@Override
+	public Usuarios findByEmail(String email) {
+	    return usuariosDAO.findByEmail(email);
+	}
 }
