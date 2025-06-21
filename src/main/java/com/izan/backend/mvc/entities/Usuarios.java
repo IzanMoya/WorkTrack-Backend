@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
@@ -31,6 +32,7 @@ import jakarta.persistence.UniqueConstraint;
 @Entity
 @Access(AccessType.FIELD)
 @Table(name = "usuarios", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Usuarios implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
