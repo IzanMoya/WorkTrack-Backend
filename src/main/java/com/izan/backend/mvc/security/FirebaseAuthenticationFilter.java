@@ -19,43 +19,50 @@ import java.util.ArrayList;
 @Component
 public class FirebaseAuthenticationFilter extends OncePerRequestFilter {
 
-	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
-		String path = request.getRequestURI();
-		String method = request.getMethod();
+        String path = request.getRequestURI();
+        String method = request.getMethod();
 
-		// DEBUG - Visualiza la ruta y método
-		System.out.println(">>> Filtro interceptó: " + method + " " + path);
+        System.out.println(">>> Filtro interceptó: " + method + " " + path);
 
-		// 🔒 Rutas protegidas - requieren token
-		String header = request.getHeader("Authorization");
-		if (header == null || !header.startsWith("Bearer ")) {
-			System.out.println("❌ Token no presente o malformado");
-			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			return;
-		}
+        // 🔓 Ignorar rutas públicas
+        if (path.equals("/") || path.equals("/ping") ||
+            path.startsWith("/auth") ||
+            path.startsWith("/worktrack/usuarios/registro") ||
+            path.startsWith("/worktrack/usuarios/email")) {
 
-		String token = header.replace("Bearer ", "");
-		System.out.println("🟡 TOKEN RECIBIDO EN BACKEND: " + token);
+            System.out.println("✅ Ruta pública, se permite sin token");
+            filterChain.doFilter(request, response);
+            return;
+        }
 
-		try {
-			System.out.println(">>> Validando token Firebase...");
-			FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
+        // 🔒 Rutas protegidas
+        String header = request.getHeader("Authorization");
+        if (header == null || !header.startsWith("Bearer ")) {
+            System.out.println("❌ Token no presente o malformado");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
 
-			// 🔐 Guardar el email como autenticación en el contexto
-			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-					decodedToken.getEmail(), null, new ArrayList<>());
+        String token = header.replace("Bearer ", "");
+        System.out.println("🟡 TOKEN RECIBIDO EN BACKEND: " + token);
 
-			System.out.println("✅ Token válido. Email: " + decodedToken.getEmail());
+        try {
+            FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                    decodedToken.getEmail(), null, new ArrayList<>());
 
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-			filterChain.doFilter(request, response);
+            System.out.println("✅ Token válido. Email: " + decodedToken.getEmail());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		} catch (FirebaseAuthException e) {
-			System.out.println("❌ Token inválido: " + e.getMessage());
-			response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403
-		}
-	}
+            filterChain.doFilter(request, response);
+
+        } catch (FirebaseAuthException e) {
+            System.out.println("❌ Token inválido: " + e.getMessage());
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        }
+    }
 }
