@@ -211,14 +211,6 @@ public class UsuariosRestController {
 		}
 		fichajesService.delete(fichajes);
 	}
-
-	@RestController
-	public class PingController {
-	    @GetMapping("/ping")
-	    public String ping() {
-	        return "pong";
-	    }
-	}
 	
 //	//UPDATE de fichajes para un usuario
 //	@PutMapping("{id_u}/fichajes/{id_f}")
