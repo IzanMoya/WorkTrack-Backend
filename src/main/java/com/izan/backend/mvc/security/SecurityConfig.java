@@ -12,24 +12,23 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-	
+
     private final FirebaseAuthenticationFilter firebaseAuthenticationFilter;
-    
+
     public SecurityConfig(FirebaseAuthenticationFilter firebaseAuthenticationFilter) {
         this.firebaseAuthenticationFilter = firebaseAuthenticationFilter;
     }
 
-    
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/worktrack/usuarios/registro").permitAll()
+                .requestMatchers("/ping").permitAll() // Para UptimeRobot
+                .requestMatchers("/worktrack/usuarios/registro").permitAll()
                 .requestMatchers("/worktrack/usuarios/email/**").permitAll()
-                .requestMatchers("/ping").permitAll()
-                .requestMatchers("/", "/favicon.ico").permitAll() // <-- Añadido para evitar errores
+                .requestMatchers("/", "/favicon.ico").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session
