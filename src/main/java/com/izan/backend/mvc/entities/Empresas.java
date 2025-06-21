@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,6 +23,7 @@ import jakarta.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name = "empresas", uniqueConstraints = @UniqueConstraint(columnNames = "nombre"))
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Empresas implements java.io.Serializable {
 
 	/**
