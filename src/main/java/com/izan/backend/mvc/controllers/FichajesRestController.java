@@ -82,6 +82,24 @@ public class FichajesRestController {
 	    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
+	@PutMapping("/descanso/{id}")
+	public Fichajes actualizarDescanso(@PathVariable int id, @RequestBody Fichajes datos) {
+	    Fichajes fichaje = fichajesService.findById(id);
+	    if (fichaje == null) throw new RuntimeException("Fichaje no encontrado");
+
+	    // Alternar entre inicio y fin
+	    if (!fichaje.isEnDescanso()) {
+	        fichaje.setFechaInicioDescanso(new Date());
+	        fichaje.setEnDescanso(true);
+	    } else {
+	        fichaje.setFechaFinDescanso(new Date());
+	        fichaje.setEnDescanso(false);
+	    }
+
+	    fichajesService.save(fichaje);
+	    return fichaje;
+	}
+	
 	@GetMapping("/estado/{usuarioId}")
 	public ResponseEntity<String> obtenerEstadoFichaje(@PathVariable int usuarioId) {
 	    Date hoy = new Date();

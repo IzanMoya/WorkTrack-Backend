@@ -47,6 +47,18 @@ public class Fichajes implements java.io.Serializable {
 	private BigDecimal latitudFin;
 	private BigDecimal longitudFin;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "fecha_inicio_descanso")
+	private Date fechaInicioDescanso;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "fecha_fin_descanso")
+	private Date fechaFinDescanso;
+
+	@Column(name = "en_descanso")
+	private boolean enDescanso;
+
+	
 	@Column(name = "direccion_inicio")
 	private String direccionInicio;
 
@@ -69,6 +81,28 @@ public class Fichajes implements java.io.Serializable {
 		this.direccionFin = direccionFin;
 	}
 
+	public Date getFechaInicioDescanso() {
+	    return fechaInicioDescanso;
+	}
+	public void setFechaInicioDescanso(Date fechaInicioDescanso) {
+	    this.fechaInicioDescanso = fechaInicioDescanso;
+	}
+
+	public Date getFechaFinDescanso() {
+	    return fechaFinDescanso;
+	}
+	public void setFechaFinDescanso(Date fechaFinDescanso) {
+	    this.fechaFinDescanso = fechaFinDescanso;
+	}
+
+	public boolean isEnDescanso() {
+	    return enDescanso;
+	}
+	public void setEnDescanso(boolean enDescanso) {
+	    this.enDescanso = enDescanso;
+	}
+
+	
 	private Date fechaFin;
 
 	public Fichajes() {
