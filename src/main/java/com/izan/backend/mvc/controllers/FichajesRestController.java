@@ -105,10 +105,13 @@ public class FichajesRestController {
 	    Date hoy = new Date();
 	    Fichajes fichaje = fichajesService.findFichajeDeHoy(usuarioId, hoy);
 
-	    if (fichaje != null && fichaje.getFechaFin() != null) {
-	        return ResponseEntity.ok("hecho");
+	    if (fichaje == null) {
+	        return ResponseEntity.ok("pendiente");
+	    } else if (fichaje.getFechaFin() != null) {
+	        return ResponseEntity.ok("pendiente"); // Ya fichó salida
+	    } else {
+	        return ResponseEntity.ok("hecho"); // Ha fichado entrada y aún no salida
 	    }
-	    return ResponseEntity.ok("pendiente");
 	}
 	
 	@DeleteMapping("/{id}")
